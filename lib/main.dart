@@ -1,17 +1,19 @@
+import 'package:summamovesapp/home.dart'; // Import HomePage from homePage.dart
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const Main());
+  runApp(MyApp());
 }
 
-class Main extends StatelessWidget {
-  const Main({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return MaterialApp(
+      title: 'My Android App',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomePage(),
+    );
   }
-
-  
 }
