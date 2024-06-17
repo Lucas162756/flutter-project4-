@@ -2,15 +2,15 @@ import 'package:summamovesapp/service.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatelessWidget {
-  final Prestatie prestatie;
+  final Oefeningen oefeningen;
 
-  const DetailPage({Key? key, required this.prestatie}) : super(key: key);
+  const DetailPage({Key? key, required this.oefeningen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gebruikers ID: ${prestatie.info.gebruikers_id}'),
+        title: Text('Beschrijving: ${oefeningen.info.beschrijving}'),
         backgroundColor: Colors.greenAccent,
       ),
       body: Center(
@@ -22,8 +22,8 @@ class DetailPage extends StatelessWidget {
             const SizedBox(
               height: 80,
             ),
-            Text('Oefeningen ID: ${prestatie.info.Oefeningen_id}'),
-            Text('Score: ${prestatie.info.score}'),
+            Text('Naam: ${oefeningen.info.naam}'),
+            Text('foto: ${oefeningen.info.foto}'),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context); // Navigate back to previous page

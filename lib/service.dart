@@ -2,64 +2,64 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Info {
-  final int gebruikers_id;
-  final int Oefeningen_id;
-  final int score;
+  final String beschrijving;
+  final String naam;
+  final String foto;
 
   const Info({
-    required this.gebruikers_id,
-    required this.Oefeningen_id,
-    required this.score,
+    required this.beschrijving,
+    required this.naam,
+    required this.foto,
   });
 
   factory Info.fromJson(Map<String, dynamic> json) {
     return Info(
-      gebruikers_id: json['gebruikers_id'] ?? 0, // Ensure 'gebruikers_id' field is present
-      Oefeningen_id: json['Oefeningen_id'] ?? 0, // Ensure 'Oefeningen_id' field is present
-      score: json['score'] ?? 0, // Ensure 'score' field is present
+      beschrijving: json['beschrijving'] ?? '', // Ensure 'beschrijving' field is present
+      naam: json['naam'] ?? '', // Ensure 'naam' field is present
+      foto: json['foto'] ?? 0, // Ensure 'score' field is present
     );
   }
 }
 
-class Prestatie {
+class Oefeningen {
   final String subjects;
   final Info info;
 
-  const Prestatie({
+  const Oefeningen({
     required this.subjects,
     required this.info,
   });
 
-  factory Prestatie.fromJson(Map<String, dynamic> json) {
+  factory Oefeningen.fromJson(Map<String, dynamic> json) {
     // Assuming subjects is a List of strings, and joining them as a single string
     String subjects = json['subjects'] != null ? (json['subjects'] as List).join(', ') : 'Unknown';
 
-    return Prestatie(
+    return Oefeningen(
       subjects: subjects,
       info: Info.fromJson(json['info']),
     );
   }
 }
 
-class PrestatieService {
-  Future<List<Prestatie>> getPrestaties() async {
-    final response = await http.get(Uri.parse('https://api_url.com/prestaties'));
+class OefeningenService {
+  Future<List<Oefeningen>> getOefeningen() async {
+    final response = await http.get(Uri.parse('https://127.0.0.1/api/summamove1'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);
-      return jsonList.map((json) => Prestatie.fromJson(json)).toList();
+      return jsonList.map((json) => Oefeningen.fromJson(json)).toList();
     } else {
-      throw Exception('Failed to load prestaties');
+      throw Exception('Failed to load oefeningen');
     }
   }
 
-  List<Prestatie> filterPrestatiesByFirstLetter(String letter, List<Prestatie> prestaties) {
+  List<Oefeningen> filterOefeningenByFirstLetter(String letter, List<Oefeningen> oefeningen) {
     if (letter.isEmpty) {
-      return prestaties; // Return all prestaties if search input is empty
+      return oefeningen; // Return all oefeningen if search input is empty
     }
 
-    return prestaties.where((prestatie) {
-      return prestatie.info.gebruikers_id.toString().startsWith(letter.toLowerCase());
+    return oefeningen.where((oefeningen) {
+      return oefeningen.info.beschrijving.toLowerCase().startsWith(letter.toLowerCase());
     }).toList();
   }
 }

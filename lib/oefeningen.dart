@@ -4,24 +4,24 @@ import 'package:summamovesapp/detail.dart';
 import 'package:summamovesapp/service.dart';
 import 'package:flutter/material.dart';
 
-class PrestatiePage extends StatefulWidget {
+class OefeningenPage extends StatefulWidget {
   @override
-  _PrestatiePageState createState() => _PrestatiePageState();
+  _OefeningenPageState createState() => _OefeningenPageState();
 }
 
-class _PrestatiePageState extends State<PrestatiePage> {
-  late Future<List<Prestatie>> futurePrestaties;
+class _OefeningenPageState extends State<OefeningenPage> {
+  late Future<List<Oefeningen>> futureOefeningen;
   late TextEditingController searchController;
-  late List<Prestatie> filteredPrestaties;
-  late List<Prestatie> allPrestaties; // New variable to store all prestaties
+  late List<Oefeningen> filteredOefeningen;
+  late List<Oefeningen> allOefeningen; // New variable to store all oefeningen
 
   @override
   void initState() {
     super.initState();
-    futurePrestaties = PrestatieService().getPrestaties();
+    futureOefeningen = OefeningenService().getOefeningen();
     searchController = TextEditingController();
-    filteredPrestaties = [];
-    allPrestaties = []; // Initialize allPrestaties list
+    filteredOefeningen = [];
+    allOefeningen = []; // Initialize allOefeningen list
   }
 
   @override
@@ -35,7 +35,7 @@ class _PrestatiePageState extends State<PrestatiePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Prestaties',
+          'Oefeningen',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
@@ -54,27 +54,27 @@ class _PrestatiePageState extends State<PrestatiePage> {
         ),
         child: RefreshIndicator(
           onRefresh: () async {
-            var prestaties = await PrestatieService().getPrestaties();
+            var oefeningen = await OefeningenService().getOefeningen();
             setState(() {
-              futurePrestaties = Future.value(prestaties);
+              futureOefeningen = Future.value(oefeningen);
             });
           },
-          child: FutureBuilder<List<Prestatie>>(
-            future: futurePrestaties,
-            builder: (BuildContext context, AsyncSnapshot<List<Prestatie>> snapshot) {
+          child: FutureBuilder<List<Oefeningen>>(
+            future: futureOefeningen,
+            builder: (BuildContext context, AsyncSnapshot<List<Oefeningen>> snapshot) {
               if (snapshot.hasData) {
-                allPrestaties = snapshot.data!;
+                allOefeningen = snapshot.data!;
                 return Column(
                   children: [
                     _buildSearchBar(),
                     Expanded(
                       child: ListView.separated(
                         padding: EdgeInsets.all(16),
-                        itemCount: filteredPrestaties.isEmpty ? allPrestaties.length : filteredPrestaties.length,
+                        itemCount: filteredOefeningen.isEmpty ? allOefeningen.length : filteredOefeningen.length,
                         itemBuilder: (context, index) {
-                          Prestatie prestatie = filteredPrestaties.isEmpty ? allPrestaties[index] : filteredPrestaties[index];
+                          Oefeningen oefeningen = filteredOefeningen.isEmpty ? allOefeningen[index] : filteredOefeningen[index];
                           return InkWell(
-                            onTap: () => openPage(context, prestatie),
+                            onTap: () => openPage(context, oefeningen),
                             child: Container(
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class _PrestatiePageState extends State<PrestatiePage> {
                                 children: [
                                   SizedBox(width: 12), // Space between image and name
                                   Text(
-                                    prestatie.info.gebruikers_id.toString(),
+                                    oefeningen.info.beschrijving,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -115,10 +115,10 @@ class _PrestatiePageState extends State<PrestatiePage> {
     );
   }
 
-  void openPage(BuildContext context, Prestatie prestatie) {
+  void openPage(BuildContext context, Oefeningen oefeningen) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailPage(prestatie: prestatie)),
+      MaterialPageRoute(builder: (context) => DetailPage(oefeningen: oefeningen)),
     );
   }
 
@@ -128,7 +128,7 @@ class _PrestatiePageState extends State<PrestatiePage> {
       child: TextField(
         controller: searchController,
         decoration: InputDecoration(
-          hintText: 'Search prestaties...',
+          hintText: 'Search oefeningen...',
           prefixIcon: Icon(Icons.search),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
@@ -136,7 +136,7 @@ class _PrestatiePageState extends State<PrestatiePage> {
         ),
         onChanged: (value) {
           setState(() {
-            filteredPrestaties = service().filterPrestatiesByFirstLetter(value, allPrestaties);
+            filteredOefeningen = oefeningenService().filterOefeningenByFirstLetter(value, allOefeningen);
           });
         },
       ),

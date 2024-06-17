@@ -1,5 +1,5 @@
 import 'package:summamovesapp/about.dart';
-import 'package:summamovesapp/prestaties.dart';
+import 'package:summamovesapp/oefeningen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   void _navigateToPeoplePage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PrestatiePage()),
+      MaterialPageRoute(builder: (context) => OefeningenPage()),
     );
   }
 
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book_online),
-            label: 'Prestatie',
+            label: 'Oefeningen',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
             ? _buildHomeContent()
             : _selectedIndex == 1
             ? About()
-            : PrestatiePage(),
+            : OefeningenPage(),
       ),
     );
   }
