@@ -14,11 +14,13 @@ class _OefeningenPageState extends State<OefeningenPage> {
   late TextEditingController searchController;
   late List<Oefeningen> filteredOefeningen;
   late List<Oefeningen> allOefeningen; // New variable to store all oefeningen
+  late OefeningenService oefeningenService;
 
   @override
   void initState() {
     super.initState();
-    futureOefeningen = OefeningenService().getOefeningen();
+    oefeningenService = OefeningenService(); // Instantiate OefeningenService
+    futureOefeningen = oefeningenService.getOefeningen();
     searchController = TextEditingController();
     filteredOefeningen = [];
     allOefeningen = []; // Initialize allOefeningen list
@@ -54,7 +56,7 @@ class _OefeningenPageState extends State<OefeningenPage> {
         ),
         child: RefreshIndicator(
           onRefresh: () async {
-            var oefeningen = await OefeningenService().getOefeningen();
+            var oefeningen = await oefeningenService.getOefeningen();
             setState(() {
               futureOefeningen = Future.value(oefeningen);
             });
@@ -136,7 +138,7 @@ class _OefeningenPageState extends State<OefeningenPage> {
         ),
         onChanged: (value) {
           setState(() {
-            filteredOefeningen = oefeningenService().filterOefeningenByFirstLetter(value, allOefeningen);
+            filteredOefeningen = oefeningenService.filterOefeningenByFirstLetter(value, allOefeningen);
           });
         },
       ),

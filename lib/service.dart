@@ -4,7 +4,7 @@ import 'dart:convert';
 class Info {
   final String beschrijving;
   final String naam;
-  final String foto;
+  final int foto;
 
   const Info({
     required this.beschrijving,
@@ -43,7 +43,7 @@ class Oefeningen {
 
 class OefeningenService {
   Future<List<Oefeningen>> getOefeningen() async {
-    final response = await http.get(Uri.parse('https://127.0.0.1/api/summamove1'));
+    final response = await http.get(Uri.parse('https://oefeningen'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);
@@ -58,8 +58,8 @@ class OefeningenService {
       return oefeningen; // Return all oefeningen if search input is empty
     }
 
-    return oefeningen.where((oefeningen) {
-      return oefeningen.info.beschrijving.toLowerCase().startsWith(letter.toLowerCase());
+    return oefeningen.where((oefening) {
+      return oefening.info.beschrijving.toLowerCase().startsWith(letter.toLowerCase());
     }).toList();
   }
 }
