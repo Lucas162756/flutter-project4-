@@ -43,7 +43,10 @@ class Oefeningen {
 
 class OefeningenService {
   Future<List<Oefeningen>> getOefeningen() async {
-    final response = await http.get(Uri.parse('https://oefeningen'));
+    final response = await http.get(Uri.parse('https://127.0.0.1/api/oefeningen'));
+
+    print(response.statusCode);
+    print(response.body);
 
     if (response.statusCode == 200) {
       List<dynamic> jsonList = json.decode(response.body);

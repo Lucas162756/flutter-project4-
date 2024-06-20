@@ -48,12 +48,7 @@ class _OefeningenPageState extends State<OefeningenPage> {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background_image.jpg"), //
-            fit: BoxFit.cover,
-          ),
-        ),
+
         child: RefreshIndicator(
           onRefresh: () async {
             var oefeningen = await oefeningenService.getOefeningen();
